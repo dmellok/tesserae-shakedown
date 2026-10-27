@@ -25,9 +25,11 @@ REPORT="$here/report/$STAMP"
 mkdir -p "$REPORT"
 
 if [ ! -d "$CLIENT_DIR/src" ]; then
-  if [ -d "../tesserae-device-circuitpython" ]; then
-    # use current directory as fallback
-    CLIENT_DIR="."
+  if [ -d ./src ]; then
+    # Run from the client checkout itself: use the current directory, and
+    # re-derive the venv path, which was computed from the old CLIENT_DIR.
+    CLIENT_DIR="$PWD"
+    CLIENT_VENV="${TESSERAE_CLIENT_VENV:-$CLIENT_DIR/venv.tesserae.cp-client}"
   else
     echo "error: client checkout not found at $CLIENT_DIR" >&2
     echo "set TESSERAE_CLIENT_DIR" >&2
