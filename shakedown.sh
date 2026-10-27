@@ -25,9 +25,14 @@ REPORT="$here/report/$STAMP"
 mkdir -p "$REPORT"
 
 if [ ! -d "$CLIENT_DIR/src" ]; then
-  echo "error: client checkout not found at $CLIENT_DIR" >&2
-  echo "set TESSERAE_CLIENT_DIR" >&2
-  exit 2
+  if [ -d "../tesserae-device-circuitpython" ]; then
+    # use current directory as fallback
+    CLIENT_DIR="."
+  else
+    echo "error: client checkout not found at $CLIENT_DIR" >&2
+    echo "set TESSERAE_CLIENT_DIR" >&2
+    exit 2
+  fi
 fi
 
 ALL_DISPLAYS="native what ii4_old ii4 ii5.7_old ii5.7 ii7.3_old iframe5.7 badger2040w sunton-2424 sharp400"
